@@ -1,14 +1,17 @@
 <!DOCTYPE html>
-<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Справочник контрагентов</title>
 </head>
 <body>
-    <div th:switch="${counterparties}">
-        <h2 th:case="null">
-            No users found!
-        </h2>
+<div th:switch="${counterparties}">
+    <h2 th:case="null">
+        No users found!
+    </h2>
+
+    <div th:case="*">
+        <h2>Справочник контрагентов</h2>
         <table>
             <thead>
             <tr>
@@ -28,9 +31,14 @@
                 <td th:text="${counterparty.kpp}"></td>
                 <td th:text="${counterparty.bikBank}"></td>
                 <td th:text="${counterparty.accountNumber}"></td>
+                <td><a th:href="@{'counterparties/' + ${counterparty.id} + '/edit'}">Изменить</a></td>
+                <td><a th:href="@{'counterparties/' + ${counterparty.id} + '/delete'}">Удалить</a></td>
             </tr>
             </tbody>
         </table>
     </div>
+    <p><a th:href="@{counterparties/new}">Добавить контрагента</a></p>
+</div>
+
 </body>
 </html>

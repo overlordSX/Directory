@@ -1,6 +1,8 @@
 package ru.solovyev.counterpartyDirectory.entity;
 
 import lombok.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
@@ -13,7 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "counterpaties")
+@Table(name = "counterparties")
 public class Counterparty {
 
     @Id
@@ -25,27 +27,27 @@ public class Counterparty {
      * Наименование.
      * Проверять что не больше 20 ти символов.
      */
-    @Column(name = "Наименование")
+    @Column(name = "name")
     String name;
     /**
      * ИНН контрагента
      */
-    @Column(name = "ИНН")
+    @Column(name = "inn")
     String inn;
     /**
      * КПП контрагента
      */
-    @Column(name = "КПП")
+    @Column(name = "kpp")
     String kpp;
     /**
      * БИК банка
      */
-    @Column(name = "БИК банка")
+    @Column(name = "bikBank")
     String bikBank;
     /**
      * Номер счета
      */
-    @Column(name = "Номер счета")
+    @Column(name = "accountNumber")
     String accountNumber;
 
 

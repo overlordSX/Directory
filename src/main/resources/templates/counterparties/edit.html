@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Изменение данных</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/counterparties/{id}(id = ${counterparty.getId()})}" th:object="${counterparty}">
+    <label for="name">Наименование</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Наименование">
+    <br>
+    <label for="inn">ИНН</label>
+    <input type="text" th:field="*{inn}" id="inn" placeholder="ИНН">
+    <br>
+    <label for="kpp">КПП</label>
+    <input type="text" th:field="*{kpp}" id="kpp" placeholder="КПП">
+    <br>
+    <label for="bikBank">БИК банка</label>
+    <input type="text" th:field="*{bikBank}" id="bikBank" placeholder="БИК банка">
+    <br>
+    <label for="accountNumber">Номер счета</label>
+    <input type="text" th:field="*{accountNumber}" id="accountNumber" placeholder="Номер счета">
+    <br><br>
+    <input type="submit" value="Подтвердить">
+    <a th:href="@{/counterparties}"><input type="button" value="Отмена"></a>
+</form>
+
+
+</body>
+</html>
