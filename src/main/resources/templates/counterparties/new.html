@@ -11,18 +11,23 @@
 <form method="POST" th:action="@{/counterparties/new}" th:object="${counterparty}">
     <label for="name">Наименование</label>
     <input type="text" th:field="*{name}" id="name" placeholder="Наименование">
+    <div style="color:red;" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Ошибка наименования</div>
     <br>
     <label for="inn">ИНН</label>
     <input type="text" th:field="*{inn}" id="inn" placeholder="ИНН">
+    <div style="color:red;" th:if="${#fields.hasErrors('inn')}" th:errors="*{inn}">Ошибка ИНН</div>
     <br>
     <label for="kpp">КПП</label>
     <input type="text" th:field="*{kpp}" id="kpp" placeholder="КПП">
+    <div style="color:red;" th:if="${#fields.hasErrors('kpp')}" th:errors="*{kpp}">Ошибка КПП</div>
     <br>
     <label for="bikBank">БИК банка</label>
     <input type="text" th:field="*{bikBank}" id="bikBank" placeholder="БИК банка">
+    <div style="color:red;" th:if="${#fields.hasErrors('bikBank')}" th:errors="*{bikBank}">Ошибка БИК</div>
     <br>
     <label for="accountNumber">Номер счета</label>
     <input type="text" th:field="*{accountNumber}" id="accountNumber" placeholder="Номер счета">
+    <div style="color:red;" th:if="${#fields.hasErrors('accountNumber')}" th:errors="*{accountNumber}">Ошибка в номере счета</div>
     <br><br>
     <input type="submit" value="Добавить">
     <a th:href="@{/counterparties}"><input type="button" value="Отмена"></a>

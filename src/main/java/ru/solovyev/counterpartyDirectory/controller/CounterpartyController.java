@@ -3,9 +3,13 @@ package ru.solovyev.counterpartyDirectory.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import ru.solovyev.counterpartyDirectory.entity.Counterparty;
 import ru.solovyev.counterpartyDirectory.service.CounterpartyService;
+import ru.solovyev.counterpartyDirectory.validator.CounterpartyValidator;
 
 import java.util.List;
 
@@ -13,11 +17,18 @@ import java.util.List;
 @RequestMapping("/counterparties")
 public class CounterpartyController {
 
-    final CounterpartyService counterpartyService;
+    private final CounterpartyService counterpartyService;
+    private final CounterpartyValidator counterpartyValidator;
 
     @Autowired
-    public CounterpartyController(CounterpartyService counterpartyService) {
+    public CounterpartyController(CounterpartyService counterpartyService, CounterpartyValidator counterpartyValidator) {
         this.counterpartyService = counterpartyService;
+        this.counterpartyValidator = counterpartyValidator;
+    }
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(counterpartyValidator);
     }
 
     @GetMapping()
@@ -33,7 +44,10 @@ public class CounterpartyController {
     }
 
     @PostMapping("/new")
-    public String createCounterparty(@ModelAttribute("counterparty") Counterparty counterparty) {
+    public String createCounterparty(@Validated @ModelAttribute("counterparty") Counterparty counterparty, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "counterparties/new";
+        }
         counterpartyService.saveCounterparty(counterparty);
         return "redirect:/counterparties";
     }
