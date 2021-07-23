@@ -8,6 +8,7 @@ import ru.solovyev.counterpartyDirectory.entity.Counterparty;
 import ru.solovyev.counterpartyDirectory.repository.CounterpartyRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CounterpartyService {
@@ -33,6 +34,10 @@ public class CounterpartyService {
 
     public void deleteCounterparty(Counterparty counterparty) {
         counterpartyRepository.delete(counterparty);
+    }
+
+    public Optional<Counterparty> findByName(String name) {
+        return counterpartyRepository.findByName(name);
     }
 
 }

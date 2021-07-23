@@ -59,7 +59,11 @@ public class CounterpartyController {
     }
 
     @PostMapping("/{id}")
-    public String update(@ModelAttribute("counterparty") Counterparty counterparty, @PathVariable("id") Long id) {
+    public String update(@Validated @ModelAttribute("counterparty") Counterparty counterparty, BindingResult bindingResult, @PathVariable("id") Long id) {
+        if (bindingResult.hasErrors()) {
+            return "counterparties/edit";
+        }
+
         counterpartyService.saveCounterparty(counterparty);
         return "redirect:/counterparties";
     }
