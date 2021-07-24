@@ -13,6 +13,9 @@ import ru.solovyev.counterpartyDirectory.validator.CounterpartyValidator;
 
 import java.util.List;
 
+/**
+ * Контроллер
+ */
 @Controller
 @RequestMapping("/counterparties")
 public class CounterpartyController {
@@ -28,7 +31,7 @@ public class CounterpartyController {
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(counterpartyValidator);
+        binder.setValidator(counterpartyValidator);
     }
 
     @GetMapping()

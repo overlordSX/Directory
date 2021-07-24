@@ -10,6 +10,9 @@ import ru.solovyev.counterpartyDirectory.service.CounterpartyService;
 import java.util.Arrays;
 import java.util.stream.IntStream;
 
+/**
+ * Валидатор для контрагентов
+ */
 @Component
 public class CounterpartyValidator implements Validator {
 
@@ -29,8 +32,6 @@ public class CounterpartyValidator implements Validator {
     public void validate(Object target, Errors errors) {
 
         //TODO Можно инкапсулировать в другой класс
-
-
         Counterparty counterparty = (Counterparty) target;
 
         nameCheck(errors, counterparty);
@@ -42,10 +43,13 @@ public class CounterpartyValidator implements Validator {
         bikBankCheck(errors, counterparty);
 
         checkAccountNumber(errors, counterparty);
-
-        //TODO написать javadoc к методам
     }
 
+    /**
+     * Метод для проверки корректности номера счета
+     * @param errors объект в который записывается информация об ошибках
+     * @param counterparty проверяемый контрагент
+     */
     private void checkAccountNumber(Errors errors, Counterparty counterparty) {
 
         String bikBank = counterparty.getBikBank();
@@ -59,9 +63,7 @@ public class CounterpartyValidator implements Validator {
             if (accountNumber.matches(regex)) {
                 if (accountNumber.length() != 20) {
                     errors.rejectValue("accountNumber", "", "Номер счета состоит из 20 цифр");
-                }
-
-                if (bikBank.length() == 9) {
+                } else if (bikBank.length() == 9) {
                     if (bikBank.charAt(6) == '0' && bikBank.charAt(7) == '0') {
                         int[] rankCoefficient = {7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1, 3, 7, 1};
                         int[] accountNumberDigits = accountNumber.chars().map(x -> x - '0').toArray();
@@ -101,9 +103,6 @@ public class CounterpartyValidator implements Validator {
                             errors.rejectValue("accountNumber", "", "Либо неправильно указан номер счета, открытый в кредитной организации");
                             errors.rejectValue("bikBank", "", "Либо неправильно указан БИК банка");
                         }
-
-                        //TODO удалить этот комментарий
-                        //errors.rejectValue("accountNumber", "", " " + Arrays.toString(forCheckAccountNumberDigits));
                     }
                 }
 
@@ -113,6 +112,11 @@ public class CounterpartyValidator implements Validator {
         }
     }
 
+    /**
+     * Метод для проверки корректности БИК-а банка
+     * @param errors объект в который записывается информация об ошибках
+     * @param counterparty проверяемый контрагент
+     */
     private void bikBankCheck(Errors errors, Counterparty counterparty) {
         String bikBank = counterparty.getBikBank();
 
@@ -131,6 +135,11 @@ public class CounterpartyValidator implements Validator {
         }
     }
 
+    /**
+     * Метод для проверки корректности КПП
+     * @param errors объект в который записывается информация об ошибках
+     * @param counterparty проверяемый контрагент
+     */
     private void kppCheck(Errors errors, Counterparty counterparty) {
         String kpp = counterparty.getKpp();
 
@@ -149,6 +158,11 @@ public class CounterpartyValidator implements Validator {
         }
     }
 
+    /**
+     * Метод для проверки корректности ИНН
+     * @param errors объект в который записывается информация об ошибках
+     * @param counterparty проверяемый контрагент
+     */
     private void innCheck(Errors errors, Counterparty counterparty) {
         String inn = counterparty.getInn();
 
@@ -208,7 +222,6 @@ public class CounterpartyValidator implements Validator {
                     if (secondControlSum > 9)
                         secondControlSum = secondControlSum % 10;
 
-
                     if (innDigits[inn.length() - 1] != secondControlSum || innDigits[inn.length() - 2] != firstControlSum) {
                         //TODO убрать потом коэффицент контрольной суммы
                         errors.rejectValue("inn", "", "Укажите корректный ИНН физ. лица " + firstControlSum + " " + secondControlSum);
@@ -220,6 +233,11 @@ public class CounterpartyValidator implements Validator {
         }
     }
 
+    /**
+     * Метод для проверки корректности имени
+     * @param errors объект в который записывается информация об ошибках
+     * @param counterparty проверяемый контрагент
+     */
     private void nameCheck(Errors errors, Counterparty counterparty) {
         String name = counterparty.getName();
         if (name.isBlank()) {
@@ -229,7 +247,7 @@ public class CounterpartyValidator implements Validator {
                 errors.rejectValue("name", "", "Наименование должно быть до 20 символов");
             } else if (!name.strip().equals(name)) {
                 errors.rejectValue("name", "", "Удалите пробелы из начала или из конца");
-            } else{
+            } else {
                 counterpartyService.findByName(name).ifPresent(c -> {
                     if (!c.getId().equals(counterparty.getId())) {
                         errors.rejectValue("name", "", "Контрагент с таким наименованием уже существует");
