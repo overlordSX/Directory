@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Поиск по наименованию</title>
+</head>
+<body>
+<h2>Результат поиска</h2>
+<table th:if="${founded}">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Наименование</th>
+        <th>ИНН</th>
+        <th>КПП</th>
+        <th>БИК банка</th>
+        <th>Номер счета</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${result.get().id}"></td>
+        <td th:text="${result.get().name}"></td>
+        <td th:text="${result.get().inn}"></td>
+        <td th:text="${result.get().kpp}"></td>
+        <td th:text="${result.get().bikBank}"></td>
+        <td th:text="${result.get().accountNumber}"></td>
+    </tr>
+    </tbody>
+</table>
+<p th:if="${!founded}">Контрагент с таким именем не найден</p>
+
+<a th:href="@{/counterparties}"><input type="button" value="На главную"></a>
+
+
+</body>
+</html>

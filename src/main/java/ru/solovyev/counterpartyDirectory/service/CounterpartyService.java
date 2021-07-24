@@ -66,4 +66,14 @@ public class CounterpartyService {
         return counterpartyRepository.findByName(name);
     }
 
+    /**
+     * Метод ищущий всех контрагентов с таким БИКом и номером счета
+     * @param bikBank БИК банка
+     * @param accountNumber Номер счета
+     * @return список найденных контрагентов
+     */
+    public List<Counterparty> findAllByBikBankAndAccountNumber(String bikBank, String accountNumber) {
+        return counterpartyRepository.findAllByBikBankAndAccountNumber(bikBank, accountNumber);
+    }
+
 }

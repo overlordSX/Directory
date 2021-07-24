@@ -5,9 +5,25 @@
     <title>Справочник контрагентов</title>
 </head>
 <body>
+
+<div>
+    <h2>Поиск по наименованию</h2>
+    <form th:method="GET" th:action="@{/counterparties/search/name}">
+        <input type="text" name="name">
+        <input type="submit" value="Поиск">
+    </form>
+
+    <h2>Поиск по БИК и номеру счета</h2>
+    <form th:method="GET" th:action="@{/counterparties/search/bikAndAccount}">
+        <input type="text" name="bikBank">
+        <input type="text" name="accountNumber">
+        <input type="submit" value="Поиск">
+    </form>
+</div>
+
 <div th:switch="${counterparties}">
     <h2 th:case="null">
-        No users found!
+        Справочник пуст
     </h2>
 
     <div th:case="*">

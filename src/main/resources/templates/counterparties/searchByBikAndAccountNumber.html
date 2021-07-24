@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Поиск по БИКу и номеру счета</title>
+</head>
+<body>
+<h2>Результат поиска</h2>
+<table th:if="${founded}">
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Наименование</th>
+    <th>ИНН</th>
+    <th>КПП</th>
+    <th>БИК банка</th>
+    <th>Номер счета</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="counterparty: ${result}">
+    <td th:text="${counterparty.id}"></td>
+    <td th:text="${counterparty.name}"></td>
+    <td th:text="${counterparty.inn}"></td>
+    <td th:text="${counterparty.kpp}"></td>
+    <td th:text="${counterparty.bikBank}"></td>
+    <td th:text="${counterparty.accountNumber}"></td>
+  </tr>
+  </tbody>
+</table>
+<p th:if="${!founded}">Контрагентов с таким БИКом и Номером счета не найдено</p>
+
+<a th:href="@{/counterparties}"><input type="button" value="На главную"></a>
+
+
+</body>
+</html>
