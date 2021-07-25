@@ -1,5 +1,6 @@
 package ru.solovyev.counterpartyDirectory.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,9 @@ public class SearchController {
 
 
     @GetMapping("/search/name")
+    @ApiOperation(value = "Получить контрагента по наименованию",
+            notes = "Если контрагент будет найден, то информация о нем будет отображена" +
+                    ", иначе будет сообщено что контрагент не найден")
     public String searchByName(Model model, @RequestParam String name) {
         Optional<Counterparty> found = counterpartyService.findByName(name);
         if (found.isPresent()) {
@@ -40,6 +44,9 @@ public class SearchController {
     }
 
     @GetMapping("/search/bikAndAccount")
+    @ApiOperation(value = "Получить клиента по БИК и Номеру счета",
+            notes = "Если контрагент будет найден, то информация о нем будет отображена" +
+                    ", иначе будет сообщено что контрагент не найден")
     public String searchByBikAndAccount(Model model, @RequestParam String bikBank, @RequestParam String accountNumber) {
         List<Counterparty> foundList = counterpartyService.findAllByBikBankAndAccountNumber(bikBank, accountNumber);
         if (!foundList.isEmpty()) {

@@ -1,5 +1,6 @@
 package ru.solovyev.counterpartyDirectory.controller;
 
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,8 @@ import ru.solovyev.counterpartyDirectory.validator.CounterpartyValidator;
 import java.util.List;
 
 /**
- * Контроллер
+ * Контроллер для работы со справочником
+ * (создание/изменение/удаление записей в справочнике)
  */
 @Controller
 @RequestMapping("/counterparties")
@@ -35,6 +37,8 @@ public class CounterpartyController {
     }
 
     @GetMapping()
+    @ApiOperation(value = "Запрос формы для отображения всех контрагентов",
+            notes = "Будут отображены, все найденные контрагенты + на этой же странице форма для поиска")
     public String findAll(Model model) {
         List<Counterparty> counterparties = counterpartyService.findAll();
         model.addAttribute("counterparties", counterparties);
@@ -42,11 +46,15 @@ public class CounterpartyController {
     }
 
     @GetMapping("/new")
+    @ApiOperation(value = "Запрос формы для добавления нового контрагента")
     public String createCounterpartyForm(@ModelAttribute("counterparty") Counterparty counterparty) {
         return "counterparties/new";
     }
 
     @PostMapping("/new")
+    @ApiOperation(value = "Операция добавления контрагента",
+            notes = "Если данные введенные в форму, пройдут валидацию, " +
+                    "то контрагент будет добавлен")
     public String createCounterparty(@Validated @ModelAttribute("counterparty") Counterparty counterparty, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "counterparties/new";
@@ -56,12 +64,16 @@ public class CounterpartyController {
     }
 
     @GetMapping("/{id}/edit")
+    @ApiOperation(value = "Запрос формы для редактирования контрагента")
     public String edit(Model model, @PathVariable("id") Long id) {
         model.addAttribute("counterparty", counterpartyService.findById(id));
         return "counterparties/edit";
     }
 
     @PostMapping("/{id}")
+    @ApiOperation(value = "Операция редактирования контрагента",
+            notes = "Если данные введенные в форму, пройдут валидацию, " +
+                    "то измененные данные будут сохранены")
     public String update(@Validated @ModelAttribute("counterparty") Counterparty counterparty, BindingResult bindingResult, @PathVariable("id") Long id) {
         if (bindingResult.hasErrors()) {
             return "counterparties/edit";
@@ -72,6 +84,7 @@ public class CounterpartyController {
     }
 
     @GetMapping("/{id}/delete")
+    @ApiOperation(value = "Операция удаления контрагента")
     public String delete(@PathVariable("id") Long id) {
         counterpartyService.deleteCounterparty(counterpartyService.findById(id));
         return "redirect:/counterparties";

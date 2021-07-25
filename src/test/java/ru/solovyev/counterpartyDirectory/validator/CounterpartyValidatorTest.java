@@ -4,12 +4,8 @@ package ru.solovyev.counterpartyDirectory.validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.validation.Errors;
-import ru.solovyev.counterpartyDirectory.config.TestConfig;
 import ru.solovyev.counterpartyDirectory.entity.Counterparty;
 import ru.solovyev.counterpartyDirectory.service.CounterpartyService;
 
@@ -20,14 +16,11 @@ import static org.mockito.Mockito.*;
  * Класс тестирующий работу валидатора
  */
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = TestConfig.class, loader = AnnotationConfigContextLoader.class)
 public class CounterpartyValidatorTest {
 
-    @Autowired
-    CounterpartyValidator counterpartyValidator;
+    private final CounterpartyService counterpartyService = mock(CounterpartyService.class);
 
-    @Autowired
-    CounterpartyService counterpartyService;
+    private final CounterpartyValidator counterpartyValidator = new CounterpartyValidator(counterpartyService);
 
     public static final int ONE = 1;
 
