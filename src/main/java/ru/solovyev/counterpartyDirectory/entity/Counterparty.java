@@ -1,8 +1,6 @@
 package ru.solovyev.counterpartyDirectory.entity;
 
 import lombok.*;
-
-
 import javax.persistence.*;
 
 /**
@@ -55,14 +53,5 @@ public class Counterparty {
      */
     @Column(name = "accountNumber")
     private String accountNumber;
-
-
-//TODO SOLVED task-1 нужно решить использовать ломбок или нет
-//TODO SOLVED task-2 после понять как пользоваться h2 базой данных
-//TODO SOLVED task-3 разобраться с Repository
-//TODO SOLVED task-4 разобраться с Service
-//TODO SOLVED task-5 разобраться с Controller
-
-
 }
 

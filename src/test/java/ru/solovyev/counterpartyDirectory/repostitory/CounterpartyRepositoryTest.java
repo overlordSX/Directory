@@ -1,19 +1,13 @@
 package ru.solovyev.counterpartyDirectory.repostitory;
 
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.solovyev.counterpartyDirectory.config.ServiceConfig;
 import ru.solovyev.counterpartyDirectory.entity.Counterparty;
 import ru.solovyev.counterpartyDirectory.repository.CounterpartyRepository;
 import org.junit.runner.RunWith;
-import ru.solovyev.counterpartyDirectory.service.CounterpartyService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +15,6 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 /**
  * Класс тестирующий работу репозитория
@@ -30,17 +23,11 @@ import static org.mockito.Mockito.when;
 @DataJpaTest
 public class CounterpartyRepositoryTest {
 
-    //TODO написать javadoc и указать недостаток - зависимость от используемых методов.
-
     @Autowired
     CounterpartyRepository counterpartyRepository;
 
-
     private static Counterparty counterparty;
     private static Counterparty counterparty2;
-
-    //TODO Убрать комментарии
-    //private static List<Counterparty> list = new ArrayList<>();
 
     @BeforeAll
     public static void init() {
@@ -51,7 +38,6 @@ public class CounterpartyRepositoryTest {
                 "773601001",
                 "044525225",
                 "30301810800006003800");
-        //list.add(counterparty);
         counterparty2 = new Counterparty(
                 2L,
                 "ВТБ",
@@ -59,13 +45,12 @@ public class CounterpartyRepositoryTest {
                 "997950001",
                 "044525000",
                 "30101810700000000187");
-        //list.add(counterparty2);
-        //System.err.println(list);
     }
 
 
-
-
+    /**
+     * Тестируется поиск по Id
+     */
     @Test
     public void findById() {
         Counterparty saved = counterpartyRepository.save(counterparty);
@@ -74,7 +59,9 @@ public class CounterpartyRepositoryTest {
         founded.ifPresent(value -> assertEquals(value.getId(), saved.getId()));
     }
 
-
+    /**
+     * Тестируется поиск всех контрагентов
+     */
     @Test
     void findAll() {
         List<Counterparty> mustBeFounded = new ArrayList<>();
@@ -86,12 +73,18 @@ public class CounterpartyRepositoryTest {
         assertEquals(mustBeFounded, founded);
     }
 
+    /**
+     * Тестируется сохранение контрагенетов
+     */
     @Test
     void saveCounterparty() {
         Counterparty saved = counterpartyRepository.save(counterparty2);
         assertEquals(saved, counterpartyRepository.getById(saved.getId()));
     }
 
+    /**
+     * Тестируется удаление контрагентов
+     */
     @Test
     void deleteCounterparty() {
         Counterparty saved = counterpartyRepository.save(counterparty2);
@@ -100,6 +93,9 @@ public class CounterpartyRepositoryTest {
         assertFalse(founded.isPresent());
     }
 
+    /**
+     * Тестируется поиск но наименованию
+     */
     @Test
     void findByName() {
         Counterparty saved = counterpartyRepository.save(counterparty);
@@ -109,6 +105,9 @@ public class CounterpartyRepositoryTest {
 
     }
 
+    /**
+     * Тестируется поиск по БИКу и Номеру счета
+     */
     @Test
     void findAllByBikBankAndAccountNumber() {
         List<Counterparty> mustBeFounded = new ArrayList<>();
@@ -117,10 +116,5 @@ public class CounterpartyRepositoryTest {
         List<Counterparty> founded = counterpartyRepository.findAllByBikBankAndAccountNumber(saved.getBikBank(), saved.getAccountNumber());
         assertTrue(founded.size() > 0);
         assertEquals(mustBeFounded, founded);
-
-
     }
-
-
-
 }

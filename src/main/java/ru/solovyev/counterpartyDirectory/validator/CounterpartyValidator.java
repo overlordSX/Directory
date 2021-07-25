@@ -31,7 +31,6 @@ public class CounterpartyValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
 
-        //TODO Можно инкапсулировать в другой класс
         Counterparty counterparty = (Counterparty) target;
 
         nameCheck(errors, counterparty);
@@ -47,7 +46,8 @@ public class CounterpartyValidator implements Validator {
 
     /**
      * Метод для проверки корректности номера счета
-     * @param errors объект в который записывается информация об ошибках
+     *
+     * @param errors       объект в который записывается информация об ошибках
      * @param counterparty проверяемый контрагент
      */
     private void checkAccountNumber(Errors errors, Counterparty counterparty) {
@@ -114,7 +114,8 @@ public class CounterpartyValidator implements Validator {
 
     /**
      * Метод для проверки корректности БИК-а банка
-     * @param errors объект в который записывается информация об ошибках
+     *
+     * @param errors       объект в который записывается информация об ошибках
      * @param counterparty проверяемый контрагент
      */
     private void bikBankCheck(Errors errors, Counterparty counterparty) {
@@ -137,7 +138,8 @@ public class CounterpartyValidator implements Validator {
 
     /**
      * Метод для проверки корректности КПП
-     * @param errors объект в который записывается информация об ошибках
+     *
+     * @param errors       объект в который записывается информация об ошибках
      * @param counterparty проверяемый контрагент
      */
     private void kppCheck(Errors errors, Counterparty counterparty) {
@@ -160,7 +162,8 @@ public class CounterpartyValidator implements Validator {
 
     /**
      * Метод для проверки корректности ИНН
-     * @param errors объект в который записывается информация об ошибках
+     *
+     * @param errors       объект в который записывается информация об ошибках
      * @param counterparty проверяемый контрагент
      */
     private void innCheck(Errors errors, Counterparty counterparty) {
@@ -191,21 +194,18 @@ public class CounterpartyValidator implements Validator {
                         controlSum = controlSum % 10;
 
                     if (innDigits[inn.length() - 1] != controlSum) {
-                        //TODO убрать потом коэффицент контрольной суммы
-                        errors.rejectValue("inn", "", "Укажите корректный ИНН организации " + controlSum);
+                        errors.rejectValue("inn", "", "Укажите корректный ИНН организации");
                     }
                 }
 
-                //TODO 10 и 12 можно вынести в константы
                 if (inn.length() == 12) {
 
                     int[] firstRankCoefficient = {7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0};
                     int[] secondRankCoefficient = {3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8, 0};
 
                     int[] innDigits = inn.chars().map(x -> x - '0').toArray();
-                    //int controlSum = IntStream.of(innDigits).sum();
+
                     int firstControlSum = 0;
-                    //по первым 11
                     for (int i = 0; i < inn.length() - 1; i++) {
                         firstControlSum += innDigits[i] * firstRankCoefficient[i];
                     }
@@ -223,8 +223,7 @@ public class CounterpartyValidator implements Validator {
                         secondControlSum = secondControlSum % 10;
 
                     if (innDigits[inn.length() - 1] != secondControlSum || innDigits[inn.length() - 2] != firstControlSum) {
-                        //TODO убрать потом коэффицент контрольной суммы
-                        errors.rejectValue("inn", "", "Укажите корректный ИНН физ. лица " + firstControlSum + " " + secondControlSum);
+                        errors.rejectValue("inn", "", "Укажите корректный ИНН физ. лица");
                     }
                 }
             } else {
@@ -235,7 +234,8 @@ public class CounterpartyValidator implements Validator {
 
     /**
      * Метод для проверки корректности имени
-     * @param errors объект в который записывается информация об ошибках
+     *
+     * @param errors       объект в который записывается информация об ошибках
      * @param counterparty проверяемый контрагент
      */
     private void nameCheck(Errors errors, Counterparty counterparty) {

@@ -15,6 +15,7 @@ public interface CounterpartyRepository extends JpaRepository<Counterparty, Long
 
     /**
      * Абстрактный метод поиска по наименованию
+     *
      * @param name наименование иского
      * @return найденный контрагент
      */
@@ -22,6 +23,7 @@ public interface CounterpartyRepository extends JpaRepository<Counterparty, Long
 
     /**
      * Абстрактный метод поиска по БИКу банка и номеру счета
+     *
      * @param bikBank БИК банка
      * @param accountNumber номер счета
      * @return список найденных контрагентов

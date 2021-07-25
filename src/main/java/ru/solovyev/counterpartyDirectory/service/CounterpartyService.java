@@ -1,7 +1,5 @@
 package ru.solovyev.counterpartyDirectory.service;
 
-import lombok.Setter;
-import org.aspectj.apache.bcel.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.solovyev.counterpartyDirectory.entity.Counterparty;
@@ -25,6 +23,7 @@ public class CounterpartyService {
 
     /**
      * Метод для поиска контрагента по id
+     *
      * @param id id искомого
      * @return контрагент
      */
@@ -34,6 +33,7 @@ public class CounterpartyService {
 
     /**
      * Метод для сбора всех контрагентов
+     *
      * @return список всех контрагентов
      */
     public List<Counterparty> findAll() {
@@ -42,6 +42,7 @@ public class CounterpartyService {
 
     /**
      * Метод сохраняющий новогоконтрагента, либо изменяющий его данные
+     *
      * @param counterparty контрагент
      * @return полученный контрагент
      */
@@ -51,6 +52,7 @@ public class CounterpartyService {
 
     /**
      * Метод удаляющий контрагента
+     *
      * @param counterparty контрагент
      */
     public void deleteCounterparty(Counterparty counterparty) {
@@ -59,6 +61,7 @@ public class CounterpartyService {
 
     /**
      * Метод ищущий контрагента по имени
+     *
      * @param name имя искомого
      * @return контрагент
      */
@@ -68,6 +71,7 @@ public class CounterpartyService {
 
     /**
      * Метод ищущий всех контрагентов с таким БИКом и номером счета
+     *
      * @param bikBank БИК банка
      * @param accountNumber Номер счета
      * @return список найденных контрагентов

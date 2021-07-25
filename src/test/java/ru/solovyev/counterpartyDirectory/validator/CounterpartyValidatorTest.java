@@ -183,7 +183,6 @@ public class CounterpartyValidatorTest {
         verify(errors, times(ONE)).rejectValue(eq("bikBank"), any(), any());
     }
 
-
     @Test
     public void EmptyAccountNumberTest() {
         validCounterparty.setAccountNumber("");
@@ -241,8 +240,6 @@ public class CounterpartyValidatorTest {
         verify(errors, times(ONE)).rejectValue(eq("bikBank"), any(), any());
         verify(errors, times(ONE)).rejectValue(eq("accountNumber"), any(), any());
     }
-
-
 
 
 }
